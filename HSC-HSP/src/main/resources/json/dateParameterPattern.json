@@ -1,0 +1,14 @@
+{
+	"list": [
+		{"key":"toHHmmss","pattern":"HHmmss"},
+		{"key":"frDt","pattern":"yyyy-MM-dd"},
+		{"key":"toDt","pattern":"yyyy-MM-dd"},
+		{"key":"excelYear","pattern":"yyyy"},
+		{"key":"excelMon","pattern":"MM"},
+		{"key":"strDt","pattern":"yyyy-MM-dd"},
+		{"key":"endDt","pattern":"yyyy-MM-dd"},
+		{"key":"endDt","pattern":"yyyyMMdd"},
+		{"key":"weekDay","pattern":"yyyyMMdd"},
+		{"key":"ym","pattern":"yyyyMM"}
+	]
+}

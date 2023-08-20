@@ -1,0 +1,10 @@
+{
+  "realm": "ebs",
+  "auth-server-url": "http://dev-sso.ebs.co.kr:18180/auth/",
+  "ssl-required": "none",
+  "resource": "local",
+  "credentials": {
+    "secret": "0ea6f141-7a8a-4993-8d40-ffbdbc7d5e24"
+  },
+  "confidential-port": 0
+}

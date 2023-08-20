@@ -1,0 +1,28 @@
+#--------------------------------------------------------
+# SETUP PROFILE [prd]
+#--------------------------------------------------------
+spring:
+  profiles: prd
+#--------------------------------------------------------
+
+#--------------------------------------------------------
+# logging 설정
+#-------------------------------------------------------- 
+logging:
+  level:
+    com.zaxxer.hikari.HikariConfig: DEBUG
+#--------------------------------------------------------
+
+---
+spring:
+  biz-api:
+    datasource:
+      jndi-name: java:/jdbc/D-HSCLOG-DS
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://127.0.0.1:13306/loghsc?characterEncoding=UTF-8
+      username: root
+      password: qudtnWkd!23
+
+  mybatis:
+    config-location: classpath:/mybatis/mybatis-config.xml
+    mapper-location: classpath:/mybatis/mapper/**/**/*.xml

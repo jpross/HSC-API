@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.apiDataSync">
+	
+	<select id="findCourseByCreate" resultType="course" parameterType="String">
+		/* api.apiDataSync.findCourseByCreate */
+		SELECT 
+			DISTINCT
+			X.COURSE_ID
+			, X.COURSE_NM
+			, X.COURSE_SUBTITLE_NM
+			, (
+				SELECT
+					CONCAT(FILE_PATH_NM, FILE_PHSC_NM)
+				FROM
+					EBSLMS_R.TB_ATCH_FILE
+				WHERE
+					FILE_ID = X.FILE_ID
+					AND FILE_CLS_CD = 'THUMB11'
+				LIMIT 1
+			) THMB_PATH
+			, X.COURSE_FEAT
+			, X.COURSE_YEAR
+			, X.COURSE_START_DT
+			, X.COURSE_END_DT
+			, X.COURSE_CLS_CD
+			, X.STDY_PERIOD
+			, X.REVIEW_PERIOD
+			, X.LVL_CD
+			, X.STDY_TG_CD
+			, X.FMY_SITE_DS_CD
+		FROM (
+			SELECT
+				*
+			FROM
+				EBSLMS_R.TB_COURSE TC
+			WHERE
+				TC.COURSE_ID IN ('S20210000160','S20210000159','S20210000176','S20210000167','S20210000184','S20210000166','S20210000183','S20210000174','S20210000191','S20210000173','S20210000190','S20210000202','S20210000219','S20200000294')
+				AND TC.FMY_SITE_DS_CD = 'EBSI'
+				AND TC.DELT_YN = 'N'
+				AND CREATE_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+				AND CREATE_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+			UNION ALL 
+			SELECT
+				*
+			FROM
+				EBSLMS_R.TB_COURSE TC
+			WHERE
+				TC.COURSE_ID IN (
+					SELECT DISTINCT 
+						TLSLC.SBJT_ID
+					FROM 
+						TB_LMS_SBJT_LECT_CAT TLSLC
+					WHERE 
+						TLSLC.SBJT_ID NOT IN ('S20160000941', 'S20160000691')
+						AND CREATE_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+						AND CREATE_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+				)
+		)
+			X
+	</select>
+	
+</mapper>

@@ -1,0 +1,10 @@
+{
+  "realm": "ebs",
+  "auth-server-url": "https://stg-sso.ebs.co.kr/auth/",
+  "ssl-required": "none",
+  "resource": "ebsi",
+  "credentials": {
+    "secret": "4b10a63f-6814-4d09-8f67-aee45552b81d"
+  },
+  "confidential-port": 0
+}

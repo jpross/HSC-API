@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- default : 템플릿에 설정된 페이지의 구성 요소에 대한 실제 파일을 지정합니다.  -->
+	<definition name="default" template="/WEB-INF/views/layouts/mainTemplate.jsp">
+		<put-attribute name="title" value="/WEB-INF/views/layouts/include/title.jsp"/>
+		<put-attribute name="include" value="/WEB-INF/views/layouts/include/include.jsp" />
+		<put-attribute name="top" value="/WEB-INF/views/layouts/include/top.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/layouts/include/left.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/include/footer.jsp" />
+	</definition>
+	
+	<definition name="empty" template="/WEB-INF/views/layouts/empty.jsp">
+		<put-attribute name="title" value="ebsi"/>
+		<put-attribute name="include" value="/WEB-INF/views/layouts/include/include.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+	</definition>
+	
+	<definition name="fullEmpty" template="/WEB-INF/views/layouts/fullEmpty.jsp">
+		<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+	</definition>
+	
+	<definition name="ajax" template="/WEB-INF/views/layouts/ajax.jsp">
+		<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+	</definition>
+	
+	<definition name="excel" template="/WEB-INF/views/layouts/excel.jsp">
+	<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+	</definition>
+	
+	<definition name="popup" template="/WEB-INF/views/layouts/popup.jsp">
+		<put-attribute name="body" value="/WEB-INF/views/layouts/include/body.jsp" />
+	</definition>
+	
+	<definition name="sample/menu/sample" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/web/sample/menu/sample.jsp" />
+	</definition>
+	
+	<!-- 인공지능 -->
+	<definition name="ai" template="/WEB-INF/views/layouts/aiTemplate.jsp">
+		<put-attribute name="title" value="ebsi"/>
+		<put-attribute name="include" value="/WEB-INF/views/layouts/includeAi/include.jsp" />
+		<put-attribute name="top" value="/WEB-INF/views/layouts/includeAi/top.jsp" />
+		<put-attribute name="left" value="/WEB-INF/views/layouts/includeAi/left.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/layouts/includeAi/body.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/includeAi/footer.jsp" />
+	</definition>
+	
+	<definition name="aiSub" template="/WEB-INF/views/layouts/aiSub.jsp">
+	</definition>
+	
+	<definition name="aiAsmt" template="/WEB-INF/views/layouts/aiTemplate.jsp">
+		<put-attribute name="title" value="ebsi"/>
+		<put-attribute name="include" value="/WEB-INF/views/layouts/includeAi/include.jsp" />
+		<put-attribute name="top" value="/WEB-INF/views/layouts/includeAi/topAsmt.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layouts/includeAi/footer.jsp" />
+	</definition>
+	
+	
+	
+	<definition name="lms/downLoad/downReservXml2020" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/lms/downLoad/downReservXml2020.jsp" />
+	</definition>
+	<definition name="lms/downLoad/downLecReservXml" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/lms/downLoad/downLecReservXml.jsp" />
+	</definition>
+	<definition name="*/*FullEmpty" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}FullEmpty.jsp" />
+	</definition>
+	<definition name="*/*/*FullEmpty" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}FullEmpty.jsp" />
+	</definition>
+	<definition name="*/*/*/*FullEmpty" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}/{4}FullEmpty.jsp" />
+	</definition>
+	
+	<definition name="ai/*/*Popup" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/{1}/{2}Popup.jsp" />
+	</definition>
+	
+	<definition name="ai/asmt/*" extends="aiAsmt">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/asmt/{1}.jsp" />
+	</definition>
+	
+	<definition name="ai/popup/*" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/popup/{1}.jsp" />
+	</definition>
+	
+	<definition name="ai/*/*Sub" extends="aiSub">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/{1}/{2}Sub.jsp" />
+	</definition>
+	
+	<definition name="ai/*" extends="ai">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/{1}.jsp" />
+	</definition>
+	
+	<definition name="ai/*/*" extends="ai">
+		<put-attribute name="body" value="/WEB-INF/views/web/ai/{1}/{2}.jsp" />
+	</definition>
+
+	<!-- // 인공지능-->
+	
+	<!-- Item Viewer -->
+	<definition name="itemViewer/*" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/xip/itemViewer/{1}.jsp" />
+	</definition>
+	<!-- Item Viewer -->
+	
+	<!-- Player -->
+	<definition name="player/*" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/lms/comm/player/{1}.jsp" />
+	</definition>
+	<!-- Player -->
+	
+	<definition name="error/*" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/error/{1}.jsp" />
+	</definition>
+	
+	<definition name="com/alertUrlEmptyNew1" extends="fullEmpty">
+		<put-attribute name="body" value="/WEB-INF/views/web/com/alertUrlEmptyNew1.jsp" />
+	</definition>
+	
+		<definition name="*/*/*Excel" extends="excel">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}Excel.jsp" />
+	</definition>
+	<definition name="*/*Excel" extends="excel">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}Excel.jsp" />
+	</definition>
+	
+	
+	
+	<definition name="*/*/*/*Ajax" extends="ajax">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}/{4}Ajax.jsp" />
+	</definition>
+	<definition name="*/*/*Ajax" extends="ajax">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}Ajax.jsp" />
+	</definition>
+	<definition name="*/*Ajax" extends="ajax">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}Ajax.jsp" />
+	</definition>
+	
+	<definition name="*/*/*/*Empty" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}/{4}Empty.jsp" />
+	</definition>
+	<definition name="*/*/*Empty" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}Empty.jsp" />
+	</definition>
+	<definition name="*/*Empty" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}Empty.jsp" />
+	</definition>
+	
+	<definition name="*/*/*/*Popup" extends="popup">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}/{4}Popup.jsp" />
+	</definition>
+	<definition name="*/*/*Popup" extends="popup">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}Popup.jsp" />
+	</definition>
+	<definition name="*/*Popup" extends="popup">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}Popup.jsp" />
+	</definition>
+	
+	<definition name="login/*" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/login/{1}.jsp" />
+	</definition>
+	
+	<definition name="sample/*" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/web/sample/{1}.jsp" />
+	</definition>
+	
+	<definition name="sample/*/*" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/web/sample/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="*/*" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}.jsp" />
+	</definition>
+	
+	<definition name="*/*/*" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}.jsp" />
+	</definition>
+	
+	<definition name="*/*/*/*" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/web/{1}/{2}/{3}/{4}.jsp" />
+	</definition>
+	
+
+</tiles-definitions>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="log.apiLog">
+
+	<insert id="insertApiConHist" parameterType="apiLogHist">
+		/* v1.log.insertApiConHist */
+		INSERT INTO TB_API_CON_HIST (
+			CON_SITE_ID
+			, API_DS_CD
+			, API_URL
+			, REQUST_ITEM
+			, REQUST_CN
+			, START_DATE
+			, END_DATE
+			, RSPNS_TM
+			, RSPNS_SIZE
+			, RSPNS_CN
+			, RESULT_CD
+		) VALUES (
+			#{conSiteId}
+			, #{apiDsCd}
+			, #{apiUrl}
+			, #{requstItem}
+			, #{requstCn}
+			, STR_TO_DATE(#{startDate}, '%Y%m%d%H%i%s')
+			, STR_TO_DATE(#{endDate}, '%Y%m%d%H%i%s')
+			, #{rspnsTm}
+			, #{rspnsSize}
+			, #{rspnsCn}
+			, #{resultCd}
+		)
+	</insert>
+	
+</mapper>

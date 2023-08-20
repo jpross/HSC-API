@@ -1,0 +1,11 @@
+{
+  "realm": "ebs",
+  "auth-server-url": "https://sso.ebs.co.kr/auth/",
+  "ssl-required": "none",
+  "resource": "ebsi",
+  "credentials": {
+    "secret": "63e47d57-fe30-41db-be36-33f2d4212c71"
+  },
+  "confidential-port": 0,
+  "connection-pool-size" : 450
+}
