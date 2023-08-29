@@ -1,4 +1,4 @@
-package com.ebs.ngs.hsc.hsp.web.api.datasync.model;
+package com.ebs.ngs.hsc.hsp.web.api.datasync.model.table;
 
 import lombok.Data;
 

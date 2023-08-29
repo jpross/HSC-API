@@ -1,21 +1,78 @@
 package com.ebs.ngs.hsc.hsp.web.api.datasync.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ebs.ngs.hsc.hsp.web.api.datasync.model.Course;
+import com.ebs.biz.api.common.response.BizDataSyncApiResponse;
 import com.ebs.ngs.hsc.hsp.web.api.datasync.repository.DataSyncRepository;
+import com.ebs.ngs.hsc.hsp.web.common.mapper.DataBaseFactory.DataSource;
 
-@Service("api-datasync-service")
+@Service
 public class DataSyncService {
 	
-	@Autowired
-	private DataSyncRepository dataSyncRepository;
+	private static final Logger logger = LoggerFactory.getLogger(DataSyncService.class);
 	
-	public List<Course> findCourseByCreate(String date) {
-		return dataSyncRepository.findCourseByCreate(date);
+	@Autowired
+	private DataSyncRepository repository;
+	
+	public <T> BizDataSyncApiResponse<T> getDatasByFactory(String tableCd, String action, String date) {
+		
+		List<T> datas = new ArrayList<>();
+		List<String> tables = TableSelector.getTable(tableCd);
+		
+		logger.info("==================================================================================");
+		logger.info("Biz DataSync API Service");
+		logger.info("==================================================================================");
+		logger.info("tableCd: " + tableCd);
+		logger.info("tables: " + String.join(",", tables));
+		logger.info("action: " + action);
+		logger.info("date: " + date);
+		
+		DataGetter getter = getDataGetter(action);
+		
+		tables.forEach(table -> {
+			datas.addAll(getData(getter, table, date));
+		});
+		
+		logger.info("data size: " + String.valueOf(datas.size()));
+		logger.info("==================================================================================");
+		
+		return new BizDataSyncApiResponse<T>()
+				.setDate(date)
+				.setData(datas);
+		
+	}
+	
+	public <T> List<T> getData(DataGetter getter, String table, String date) {
+		DataSource dataSource;
+		if (table.indexOf(".hsc") > -1) {
+			dataSource = DataSource.HSC_SLAVE;
+		}
+		else {
+			dataSource = DataSource.JHS_SLAVE;
+		}
+		List<T> datas = getter.get(table, date, dataSource);
+		return datas;
+	}
+	
+	public DataGetter getDataGetter(String action) {
+		
+		switch (action) {
+			case "create":
+				return repository::getCreateData;
+			case "update":
+				return repository::getUpdateData;
+			case "delete":
+				return repository::getDeleteData;
+			default:
+				return null;
+		}
+		
 	}
 	
 }
