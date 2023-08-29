@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.tch.hsc">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		SELECT
+			DISTINCT
+			D.TCH_MAP_ID tchId
+			, C.FMY_SITE_DS_CD fmySiteDsCd
+			, C.TCH_NM tchNm
+			, C.TCH_DS_CD tchDsCd
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			<include refid="api.dataSync.course.tb_course_hsc" /> A
+			INNER JOIN EBSLMS_R.TB_COURSE_TCH_RL B ON A.COURSE_ID = B.COURSE_ID AND A.FMY_SITE_DS_CD = B.FMY_SITE_DS_CD
+			INNER JOIN EBSLMS_R.TB_TCH C ON B.TCH_ID = C.TCH_ID AND A.FMY_SITE_DS_CD = C.FMY_SITE_DS_CD
+			LEFT OUTER JOIN <include refid="api.dataSync.tch.tb_tch_map" /> D ON C.TCH_ID = D.TCH_ID
+	</sql>
+	
+	<sql id="where_fmySiteDsCd_template">
+		WHERE
+			C.FMY_SITE_DS_CD = 'EBSI'
+	</sql>
+	
+	<sql id="and_deltYnToN_template">
+			AND IF(C.DELT_YN IS NULL OR C.DELT_YN = '', 'N', C.DELT_YN) = 'N'
+	</sql>
+	
+	<sql id="and_deltYnToY_template">
+			AND IF(C.DELT_YN IS NULL OR C.DELT_YN = '', 'N', C.DELT_YN) = 'Y'
+	</sql>
+	
+	<sql id="and_createDate_template">
+			AND C.CREATE_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND C.CREATE_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND C.EDIT_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND C.EDIT_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY 
+			D.TCH_MAP_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="courseTchRl" parameterType="String">
+		/* api.dataSync.courseTchRl.hsc.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_fmySiteDsCd_template" />
+		<include refid="and_deltYnToN_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="courseTchRl" parameterType="String">
+		/* api.dataSync.courseTchRl.hsc.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_fmySiteDsCd_template" />
+		<include refid="and_deltYnToN_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="courseId" parameterType="String">
+		/* api.dataSync.courseTchRl.hsc.findDeleteData */
+		SELECT
+			B.COURSE_ID courseId
+		<include refid="from_template" />
+		<include refid="where_fmySiteDsCd_template" />
+		<include refid="and_deltYnToY_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>
