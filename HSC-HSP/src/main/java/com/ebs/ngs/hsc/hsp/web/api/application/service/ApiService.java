@@ -19,7 +19,7 @@ public class ApiService {
 	private static final long EXPIRE_TIME = 86400L;
 	
 	@Autowired @Qualifier("apiRedisService")
-	private RedisService redisService;
+	private RedisService apiRedisService;
 	
 	@Autowired
 	private ApiRepository repository;
@@ -33,7 +33,7 @@ public class ApiService {
 		// redis key: api-eduoffice-vod:lect
 		// hash key: lectId
 		String key = getApiRedisKey("lect");
-		return redisService
+		return apiRedisService
 				.getValueToMap(
 					key, 
 					lectId,
@@ -56,7 +56,7 @@ public class ApiService {
 		// redis key: api-eduoffice-vod:item
 		// hash key: itemId
 		String key = getApiRedisKey("item");
-		return redisService
+		return apiRedisService
 				.getValueToMap(
 					key,
 					itemId.toString(),

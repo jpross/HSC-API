@@ -7,21 +7,20 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
-@Component
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class RedisService {
-
-	@Autowired
-    private RedisTemplate<String, Object> redisTemplate;
 	
-	public RedisService setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
-		this.redisTemplate = redisTemplate;
-		return this;
-	}
+	private static final Logger logger = LoggerFactory.getLogger(RedisService.class);
+
+	private final RedisTemplate<String, Object> redisTemplate;
 	
 	public long getExpireTime(String key) {
 		return redisTemplate.getExpire(key);
@@ -195,7 +194,9 @@ public class RedisService {
 				tempData = getter.get(redisTemplate, key);
 				// Redis에 데이터가 있을 경우
 				if (tempData != null) {
-					System.out.println("redis cache 사용: " + key);
+					logger.info("=====================================================================================");
+					logger.info("redis cache 사용: " + key);
+					logger.info("=====================================================================================");
 					return tempData;
 				}
 			}
@@ -217,7 +218,9 @@ public class RedisService {
 		}
 		
 		setter.set(redisTemplate, key, tempData);
-		System.out.println("redis cache 생성: " + key);
+		logger.info("=====================================================================================");
+		logger.info("redis cache 생성: " + key);
+		logger.info("=====================================================================================");
 		if (expireTime > 0L) {
 			redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
 		}
@@ -242,7 +245,9 @@ public class RedisService {
 				tempData = getter.get(redisTemplate, key, hashKey);
 				// Redis에 데이터가 있을 경우
 				if (tempData != null) {
-					System.out.println(String.format("redis cache 사용: %s:%s", key, hashKey));
+					logger.info("=====================================================================================");
+					logger.info(String.format("redis cache 사용: %s:%s", key, hashKey));
+					logger.info("=====================================================================================");
 					return tempData;
 				}
 			}
@@ -273,7 +278,9 @@ public class RedisService {
 			tempData = (T) listToStringTempData;
 		}
 		setter.set(redisTemplate, key, hashKey, tempData);
-		System.out.println(String.format("redis cache 생성: %s:%s", key, hashKey));
+		logger.info("=====================================================================================");
+		logger.info(String.format("redis cache 생성: %s:%s", key, hashKey));
+		logger.info("=====================================================================================");
 		if (redisTemplate.getExpire(key) < 0L && expireTime > 0L) {
 			redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
 		}
