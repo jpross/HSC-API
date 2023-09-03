@@ -10,6 +10,7 @@
 		Template 
 	-->
 	<sql id="select_template">
+<<<<<<< HEAD
 		SELECT
 			B.COURSE_ID courseId
 			, B.TORY_CD toryCd
@@ -77,6 +78,68 @@
 		<include refid="from_template" />
 		<include refid="where_deltYnToY_template" />
 		<include refid="and_editDate_template" />
+=======
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			A.COURSE_ID courseId
+			, A.TORY_CD toryCd
+			, A.LIST_VIEW_YN listViewYn
+			, A.REG_CMPLT_YN regCmpltYn
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+	</sql>
+	
+	<sql id="from_template">
+		FROM 
+			EBSLMS_R.TB_COURSE_ADTL_INFO A
+	</sql>
+	
+	<sql id="and_courseId_template">
+			AND A.COURSE_ID IN (
+				SELECT
+					COURSE_ID
+				FROM
+					TMP_COURSE
+			)
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.COURSE_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="courseAdtlInfo" parameterType="String">
+		/* api.dataSync.courseAdtlInfo.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_createDate_template" />
+		<include refid="and_courseId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="courseAdtlInfo" parameterType="String">
+		/* api.dataSync.courseAdtlInfo.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_courseId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="courseId" parameterType="String">
+		/* api.dataSync.courseAdtlInfo.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			A.COURSE_ID courseId
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_courseId_template" />
+>>>>>>> branch 'main' of https://github.com/jpross/HSC-API.git
 		<include refid="orderBy_template" />
 	</select>
 	

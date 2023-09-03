@@ -3,7 +3,6 @@ package com.ebs.ngs.hsc.hsp.web.api.datasync.model.table;
 import java.io.Serializable;
 
 import com.ebs.ngs.hsc.hsp.web.api.datasync.model.DataSyncModel;
-import com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseId;
 
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ public class Course extends DataSyncModel implements Serializable {
 	
 	private static final long serialVersionUID = -5758224704791851065L;
 	
-	private CourseId courseId;
+	private String courseId;
 	private String courseNm;
 	private String courseSubtitleNm;
 	private String thmbPath;
@@ -28,11 +27,7 @@ public class Course extends DataSyncModel implements Serializable {
 	private String fmySiteDsCd;
 	
 	public String getCourseId() {
-		return courseId.getCourseId();
-	}
-	
-	public void setCourseId(String courseId) {
-		this.courseId = new CourseId(courseId);
+		return courseId;
 	}
 
 	public String getCourseNm() {

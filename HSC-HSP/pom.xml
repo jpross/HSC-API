@@ -616,7 +616,7 @@
 	    <dependency>
 			<groupId>com.ebs.biz.api</groupId>
 			<artifactId>ebs-biz-api-common</artifactId>
-			<version>0.3.14-RELEASE</version>
+			<version>0.4.4-RELEASE</version>
 	    </dependency>
 	    
 		<!-- 

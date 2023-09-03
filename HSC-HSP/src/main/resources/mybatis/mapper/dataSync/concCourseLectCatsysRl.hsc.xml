@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.concCourseLectCatsysRl.hsc">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		SELECT
+			A.COURSE_ID courseId
+			, A.LECT_ID lectId
+			, A.PRBM_CAT_ID prbmCatId
+			, A.AR ar
+			, A.SUBJ subj
+			, A.LARCAT larcat
+			, A.INGCAT ingcat
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+			, A.HGRNK_CLSFN_SYST_ID hgrnkClsfnSystId
+			, A.BOTM_CLSFN_SYST_YN botmClsfnSystYn
+			, A.CLSFN_SYST_PHS clsfnSystPhs
+			, A.SORT_SEQ sortSeq
+			, A.CLSFN_SYST_NM_1 clsfnSystNm1
+			, A.CLSFN_SYST_NM_2 clsfnSystNm2
+			, A.CLSFN_SYST_NM_3 clsfnSystNm3
+			, A.CLSFN_SYST_NM_4 clsfnSystNm4
+			, A.CLSFN_SYST_NM_5 clsfnSystNm5
+			, A.CLSFN_SYST_NM_6 clsfnSystNm6
+			, A.CREATE_DATE
+			, A.EDIT_DATE
+	</sql>
+	
+	<sql id="from_template">
+		FROM (
+			SELECT 
+				SBJT_ID COURSE_ID
+				, LESSON_ID LECT_ID
+				, INDEX_ID PRBM_CAT_ID
+				, ROW_NUMBER() OVER (PARTITION BY SBJT_ID, LESSON_ID) RNK
+				, AR
+				, SUBJ 
+				, LARCAT
+				, INGCAT
+				, 'HSC' FMY_SITE_DS_CD
+				, NULL HGRNK_CLSFN_SYST_ID
+				, NULL BOTM_CLSFN_SYST_YN
+				, NULL CLSFN_SYST_PHS
+				, NULL SORT_SEQ
+				, NULL CLSFN_SYST_NM_1
+				, NULL CLSFN_SYST_NM_2
+				, NULL CLSFN_SYST_NM_3
+				, NULL CLSFN_SYST_NM_4
+				, NULL CLSFN_SYST_NM_5
+				, NULL CLSFN_SYST_NM_6
+				, FIR_REG_DT CREATE_DATE
+				, LT_MDF_DT EDIT_DATE
+			FROM 
+				EBSHSC.TB_LMS_SBJT_LECT_CAT
+			WHERE 
+				SBJT_ID NOT IN ('S20160000941', 'S20160000691')
+		)
+			A
+	</sql>
+	
+	<sql id="where_template">
+		WHERE
+			1 = 1
+	</sql>
+
+	<sql id="and_createDate_template">
+			AND A.CREATE_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND A.CREATE_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND A.EDIT_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND A.EDIT_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+	</sql>
+	
+	<sql id="and_rnk_template">
+			AND A.RNK = 1
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.COURSE_ID
+			, A.LECT_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="concCourseLectCatsysRl" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.hsc.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_rnk_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="concCourseLectCatsysRl" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.hsc.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_rnk_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="courseIdAndLectId" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.hsc.findDeleteData */
+		SELECT 
+			A.COURSE_ID courseId
+			, A.LECT_ID lectId
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_rnk_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>

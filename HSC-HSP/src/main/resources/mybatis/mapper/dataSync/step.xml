@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.step">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			DISTINCT 
+			A.STEP_ID stepId
+			, A.STEP_NM stepNm
+			, A.TOTAL_LECT_TNUM totalLectTnum
+			, A.REG_LECT_TNUM regLectTnum
+			, A.LECT_SORT_TYPE lectSortType
+			, A.USE_YN useYn
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			EBSLMS_R.TB_STEP A
+	</sql>
+	
+	<sql id="and_stepId_template">
+			AND A.STEP_ID IN (
+				SELECT
+					DISTINCT
+					B.STEP_ID
+				FROM
+					TMP_COURSE A
+					INNER JOIN EBSLMS_R.TB_COURSE_STEP_RL B ON B.COURSE_ID = A.COURSE_ID AND B.FMY_SITE_DS_CD = A.FMY_SITE_DS_CD
+			)
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.STEP_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="step" parameterType="String">
+		/* api.dataSync.step.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_createDate_template" />
+		<include refid="and_stepId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="step" parameterType="String">
+		/* api.dataSync.step.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_stepId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="stepId" parameterType="String">
+		/* api.dataSync.step.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			A.STEP_ID stepId
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_stepId_template" />
+		<include refid="orderBy_template" />
+	</select>
+
+</mapper>

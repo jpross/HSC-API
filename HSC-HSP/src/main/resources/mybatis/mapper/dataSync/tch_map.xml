@@ -4,12 +4,13 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="api.dataSync.tch">
+<mapper namespace="api.dataSync.tch_map">
 
 	<!--
 		Template 
 	-->
 	<sql id="tb_tch_map">
+	(
 		SELECT
 			A.TCH_ID
 			, A.TCH_MAP_ID
@@ -8341,6 +8342,7 @@
 			SELECT '429609' TCH_ID, 'tut_8387' TCH_MAP_ID FROM DUAL
 		)
 			A
+	)
 	</sql>
 	
 </mapper>
