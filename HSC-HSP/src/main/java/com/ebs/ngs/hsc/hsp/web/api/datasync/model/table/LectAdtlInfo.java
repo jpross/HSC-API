@@ -1,6 +1,5 @@
 package com.ebs.ngs.hsc.hsp.web.api.datasync.model.table;
 
-<<<<<<< HEAD
 import java.io.Serializable;
 
 import com.ebs.ngs.hsc.hsp.web.api.datasync.model.DataSyncModel;
@@ -37,16 +36,5 @@ public class LectAdtlInfo extends DataSyncModel implements Serializable {
 	public String getFmySiteDsCd() {
 		return super.getFmySiteDsCd(fmySiteDsCd);
 	}
-	
-=======
-import lombok.Data;
 
-@Data
-public class LectAdtlInfo {
-	private String lectId;
-	private String otYn;
-	private String sbjtId;
-	private String openYn;
-	private String fmySiteDsCd;
->>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 }

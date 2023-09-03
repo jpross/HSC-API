@@ -1,6 +1,5 @@
 package com.ebs.ngs.hsc.hsp.web.api.datasync.model.table;
 
-<<<<<<< HEAD
 import java.io.Serializable;
 
 import com.ebs.ngs.hsc.hsp.web.api.datasync.model.DataSyncModel;
@@ -62,18 +61,5 @@ public class LectIndex extends DataSyncModel implements Serializable {
 	public String getTxbkPageNo() {
 		return super.getNullToEmpty(txbkPageNo);
 	}
-	
-=======
-import lombok.Data;
 
-@Data
-public class LectIndex {
-	private String lectId;
-	private String lectItemId;
-	private String clipNm;
-	private String ecdFileVodTime;
-	private String startTime;
-	private String endTime;
-	private String fmySiteDsCd;
->>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 }
