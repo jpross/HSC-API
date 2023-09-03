@@ -14,7 +14,6 @@ public class ApiRedisConfig {
 	@Autowired @Qualifier("redisDataCacheTemplate")
     private RedisTemplate<String, Object> redisTemplate;
 
-	
 	@Bean("apiRedisService")
 	public RedisService aiRedisService() {
 		RedisService redisService = new RedisService(redisTemplate);
