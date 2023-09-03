@@ -24,7 +24,7 @@
 		
 		<typeAlias alias="apiLogHist" type="com.ebs.biz.api.common.log.model.BizApiLogHist"/>
 	</typeAliases>
-	<plugins>
+	<!-- <plugins>
 		<plugin interceptor="com.ebs.ngs.hsc.hsp.system.interceptor.PagingCountInterceptor"></plugin>
-	</plugins>
+	</plugins> -->
 </configuration> 

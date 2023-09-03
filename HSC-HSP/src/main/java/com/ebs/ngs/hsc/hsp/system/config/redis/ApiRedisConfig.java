@@ -13,13 +13,10 @@ public class ApiRedisConfig {
 	
 	@Autowired @Qualifier("redisDataCacheTemplate")
     private RedisTemplate<String, Object> redisTemplate;
-
-	@Autowired
-	private RedisService redisService;
 	
 	@Bean("apiRedisService")
 	public RedisService aiRedisService() {
-		redisService.setRedisTemplate(this.redisTemplate);
+		RedisService redisService = new RedisService(redisTemplate);
 		return redisService;
 	}
 

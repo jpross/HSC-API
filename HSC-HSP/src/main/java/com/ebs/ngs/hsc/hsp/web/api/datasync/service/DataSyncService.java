@@ -49,13 +49,7 @@ public class DataSyncService {
 	}
 	
 	public <T> List<T> getData(DataGetter getter, String table, String date) {
-		DataSource dataSource;
-		if (table.indexOf(".hsc") > -1) {
-			dataSource = DataSource.HSC_SLAVE;
-		}
-		else {
-			dataSource = DataSource.JHS_SLAVE;
-		}
+		DataSource dataSource = (table.indexOf(".jhs") > -1) ? DataSource.JHS_SLAVE : DataSource.HSC_SLAVE;
 		List<T> datas = getter.get(table, date, dataSource);
 		return datas;
 	}
