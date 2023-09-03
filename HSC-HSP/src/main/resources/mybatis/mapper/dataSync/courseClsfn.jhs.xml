@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.courseClsfn.jhs">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		SELECT
+			A.CLSFN_SYST_ID clsfnSystId
+			, A.HGRNK_CLSFN_SYST_ID hgrnkClsfnSystId
+			, A.CLSFN_SYST_NM clsfnSystNm
+			, A.SORT_SEQ sortSeq
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+	</sql>
+	
+	<sql id="from_template">
+		FROM (
+			SELECT
+				CLSFN_SYST_ID
+				, HGRNK_CLSFN_SYST_ID
+				, CLSFN_SYST_NM
+				, SORT_SEQ
+				, 'PRI' AS FMY_SITE_DS_CD
+				, CASE USE_YN
+					WHEN 'Y' THEN 'N'
+					ELSE 'Y'
+				END AS DELT_YN
+				, CRTN_DTM
+				, LST_CHNG_DTM
+			FROM
+				EBSJHS.TB_G_CLSFN_SYST TGCS
+			WHERE
+				CLSFN_SYST_PHS >= 3
+				AND CLSFN_SYST_ID IN (
+					WITH RECURSIVE CTE AS (
+						SELECT 
+							A.CLSFN_SYST_ID
+							, A.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST A
+						WHERE A.CLSFN_SYST_ID IN (61000001)
+						UNION ALL
+						SELECT 
+							B.CLSFN_SYST_ID
+							, B.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST B
+							, CTE C
+						WHERE B.HGRNK_CLSFN_SYST_ID = C.CLSFN_SYST_ID
+					)
+					SELECT CLSFN_SYST_ID
+					FROM CTE
+				)
+			UNION ALL
+			SELECT
+				CLSFN_SYST_ID
+				, HGRNK_CLSFN_SYST_ID
+				, CLSFN_SYST_NM
+				, SORT_SEQ
+				, 'PRI' AS FMY_SITE_DS_CD
+				, CASE USE_YN
+					WHEN 'Y' THEN 'N'
+					ELSE 'Y'
+				END AS DELT_YN
+				, CRTN_DTM
+				, LST_CHNG_DTM
+			FROM EBSJHS.TB_G_CLSFN_SYST TGCS
+			WHERE CLSFN_SYST_PHS >= 2
+				AND CLSFN_SYST_ID IN (
+					WITH RECURSIVE CTE AS (
+						SELECT 
+							A.CLSFN_SYST_ID
+							, A.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST A
+						WHERE A.CLSFN_SYST_ID IN (64200000)
+						UNION ALL
+						SELECT 
+							B.CLSFN_SYST_ID
+							, B.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST B
+							, CTE C
+						WHERE B.HGRNK_CLSFN_SYST_ID = C.CLSFN_SYST_ID
+					)
+					SELECT CLSFN_SYST_ID
+					FROM CTE
+				)
+			UNION ALL
+			SELECT
+				CLSFN_SYST_ID
+				, HGRNK_CLSFN_SYST_ID
+				, CLSFN_SYST_NM
+				, SORT_SEQ
+				, 'JHS' AS FMY_SITE_DS_CD
+				, CASE USE_YN
+					WHEN 'Y' THEN 'N'
+					ELSE 'Y'
+				END AS DELT_YN
+				, CRTN_DTM
+				, LST_CHNG_DTM
+			FROM EBSJHS.TB_G_CLSFN_SYST TGCS
+			WHERE CLSFN_SYST_PHS >= 3
+				AND CLSFN_SYST_ID IN (
+					WITH RECURSIVE CTE AS (
+						SELECT 
+							A.CLSFN_SYST_ID
+							, A.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST A
+						WHERE A.CLSFN_SYST_ID IN (61001520)
+						UNION ALL
+						SELECT 
+							B.CLSFN_SYST_ID
+							, B.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST B
+							, CTE C
+						WHERE B.HGRNK_CLSFN_SYST_ID = C.CLSFN_SYST_ID
+					)
+					SELECT CLSFN_SYST_ID
+					FROM CTE
+				)
+			UNION ALL
+			SELECT
+				CLSFN_SYST_ID
+				, HGRNK_CLSFN_SYST_ID
+				, CLSFN_SYST_NM
+				, SORT_SEQ
+				, 'JHS' AS FMY_SITE_DS_CD
+				, CASE USE_YN
+					WHEN 'Y' THEN 'N'
+					ELSE 'Y'
+				END AS DELT_YN
+				, CRTN_DTM
+				, LST_CHNG_DTM
+			FROM EBSJHS.TB_G_CLSFN_SYST TGCS
+			WHERE CLSFN_SYST_PHS >= 2
+				AND CLSFN_SYST_ID IN (
+					WITH RECURSIVE CTE AS (
+						SELECT 
+							A.CLSFN_SYST_ID
+							, A.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST A
+						WHERE A.CLSFN_SYST_ID IN (64100000)
+						UNION ALL
+						SELECT 
+							B.CLSFN_SYST_ID
+							, B.CLSFN_SYST_NM
+						FROM EBSJHS.TB_G_CLSFN_SYST B
+							, CTE C
+						WHERE B.HGRNK_CLSFN_SYST_ID = C.CLSFN_SYST_ID
+					)
+					SELECT CLSFN_SYST_ID
+					FROM CTE
+				)
+		)
+			A
+	</sql>
+	
+	<sql id="and_createDate_template">
+			AND A.CRTN_DTM <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.CRTN_DTM <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND A.LST_CHNG_DTM <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.LST_CHNG_DTM <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.CLSFN_SYST_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="courseClsfnRl" parameterType="String">
+		/* api.dataSync.courseClsfn.jhs.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="courseClsfnRl" parameterType="String">
+		/* api.dataSync.courseClsfn.jhs.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="clsfnSystId" parameterType="String">
+		/* api.dataSync.courseClsfn.jhs.findDeleteData */
+		SELECT
+			A.CLSFN_SYST_ID clsfnSystId
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>

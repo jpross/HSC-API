@@ -6,23 +6,7 @@
 	<typeAliases>
 		<typeAlias alias="hashMap" type="java.util.HashMap"/>
 		<typeAlias alias="linkedMap" type="java.util.LinkedHashMap"/>
-		<!-- <typeAlias alias="cmmMap" type="com.ebs.ngs.hsc.hsp.web.common.data.CmmMap"/>	
-		<typeAlias alias="cmmReq" type="com.ebs.ngs.hsc.hsp.web.common.data.CmmReq"/> -->
 		
-<<<<<<< HEAD
-		<typeAlias alias="course" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Course"/>
-		<typeAlias alias="courseClsfnRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseClsfnRl"/>
-		<typeAlias alias="courseClsfn" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseClsfn"/>
-		<typeAlias alias="courseAdtlInfo" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseAdtlInfo"/>
-		<typeAlias alias="eduCourse" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.EduCourse"/>
-		<typeAlias alias="courseTchRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseTchRl"/>
-		<typeAlias alias="tch" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Tch"/>
-		
-		<typeAlias alias="courseId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseId"/>
-		<typeAlias alias="clsfnSystId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ClsfnSystId"/>
-		<typeAlias alias="clsfnSystIdAndCourseId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ClsfnSystIdAndCourseId"/>
-		<typeAlias alias="courseIdAndTchId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseIdAndTchId"/>
-=======
 		<typeAlias alias="concCourseLectCatsysRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.ConcCourseLectCatsysRl"/>
 		<typeAlias alias="course" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Course"/>
 		<typeAlias alias="courseClsfnRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseClsfnRl"/>
@@ -52,17 +36,10 @@
 		<typeAlias alias="lectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.LectId"/>
 		<typeAlias alias="lectIdAndIndexId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.LectIdAndIndexId"/>
 		<typeAlias alias="itemNoAndLectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ItemNoAndLectId"/>
->>>>>>> branch 'main' of https://github.com/jpross/HSC-API.git
 		
 		<typeAlias alias="apiLogHist" type="com.ebs.biz.api.common.log.model.BizApiLogHist"/>
 	</typeAliases>
-<<<<<<< HEAD
-	<!-- <plugins>
-		<plugin interceptor="com.ebs.ngs.hsc.hsp.system.interceptor.PagingCountInterceptor"></plugin>
-	</plugins> -->
-=======
 	<plugins>
 		<plugin interceptor="com.ebs.ngs.hsc.hsp.system.interceptor.DataSyncQueryLogInterceptor"></plugin>
 	</plugins>
->>>>>>> branch 'main' of https://github.com/jpross/HSC-API.git
 </configuration> 

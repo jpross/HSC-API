@@ -4,7 +4,7 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="api.dataSync.courseAdtlInfo">
+<mapper namespace="api.dataSync.tch">
 
 	<!--
 		Template 
@@ -12,64 +12,68 @@
 	<sql id="select_template">
 		<include refid="api.dataSync.query_template.tmp_course" />
 		SELECT
-			A.COURSE_ID courseId
-			, A.TORY_CD toryCd
-			, A.LIST_VIEW_YN listViewYn
-			, A.REG_CMPLT_YN regCmpltYn
+			DISTINCT
+			B.TCH_MAP_ID tchId
 			, A.FMY_SITE_DS_CD fmySiteDsCd
+			, A.TCH_NM tchNm
+			, A.TCH_DS_CD tchDsCd
 	</sql>
 	
 	<sql id="from_template">
-		FROM 
-			EBSLMS_R.TB_COURSE_ADTL_INFO A
+		FROM
+			EBSLMS_R.TB_TCH A
+			LEFT OUTER JOIN <include refid="api.dataSync.tch_map.tb_tch_map" /> B ON B.TCH_ID = A.TCH_ID
 	</sql>
 	
-	<sql id="and_courseId_template">
-			AND A.COURSE_ID IN (
+	<sql id="and_tchId_template">
+			AND A.TCH_ID IN (
 				SELECT
-					COURSE_ID
+					DISTINCT
+					B.TCH_ID
 				FROM
-					TMP_COURSE
+					TMP_COURSE A
+					INNER JOIN EBSLMS_R.TB_COURSE_TCH_RL B ON A.COURSE_ID = B.COURSE_ID AND A.FMY_SITE_DS_CD = B.FMY_SITE_DS_CD
 			)
 	</sql>
 	
 	<sql id="orderBy_template">
-		ORDER BY
-			A.COURSE_ID
+		ORDER BY 
+			A.TCH_ID
 	</sql>
 	
 	<!--
 		Query 
 	-->
-	<select id="findCreateData" resultType="courseAdtlInfo" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findCreateData */
+	<select id="findCreateData" resultType="tch" parameterType="String">
+		/* api.dataSync.tch.findCreateData */
 		<include refid="select_template" />
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
 		<include refid="api.dataSync.query_template.and_createDate_template" />
-		<include refid="and_courseId_template" />
+		<include refid="and_tchId_template" />
 		<include refid="orderBy_template" />
 	</select>
 	
-	<select id="findUpdateData" resultType="courseAdtlInfo" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findUpdateData */
+	<select id="findUpdateData" resultType="tch" parameterType="String">
+		/* api.dataSync.tch.findUpdateData */
 		<include refid="select_template" />
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
 		<include refid="api.dataSync.query_template.and_editDate_template" />
-		<include refid="and_courseId_template" />
+		<include refid="and_tchId_template" />
 		<include refid="orderBy_template" />
 	</select>
 	
-	<select id="findDeleteData" resultType="courseId" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findDeleteData */
+	<select id="findDeleteData" resultType="tchIdAndFmySiteDsCd" parameterType="String">
+		/* api.dataSync.tch.findDeleteData */
 		<include refid="api.dataSync.query_template.tmp_course" />
 		SELECT
-			A.COURSE_ID courseId
+			B.TCH_MAP_ID tchId
+			, A.FMY_SITE_DS_CD fmySiteDsCd
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
 		<include refid="api.dataSync.query_template.and_editDate_template" />
-		<include refid="and_courseId_template" />
+		<include refid="and_tchId_template" />
 		<include refid="orderBy_template" />
 	</select>
 	

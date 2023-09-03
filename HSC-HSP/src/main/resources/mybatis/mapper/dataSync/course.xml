@@ -4,24 +4,42 @@
       PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="api.dataSync.courseAdtlInfo">
+<mapper namespace="api.dataSync.course">
 
 	<!--
 		Template 
 	-->
 	<sql id="select_template">
 		<include refid="api.dataSync.query_template.tmp_course" />
-		SELECT
+		SELECT 
 			A.COURSE_ID courseId
-			, A.TORY_CD toryCd
-			, A.LIST_VIEW_YN listViewYn
-			, A.REG_CMPLT_YN regCmpltYn
+			, A.COURSE_NM courseNm
+			, A.COURSE_SUBTITLE_NM courseSubtitleNm
+			, (
+				SELECT
+					CONCAT(IF(A.FMY_SITE_DS_CD = 'EBSI', '', 'https://cbox.ebs.co.kr'), FILE_PATH_NM, FILE_PHSC_NM)
+				FROM
+					EBSLMS_R.TB_ATCH_FILE
+				WHERE
+					FILE_ID = A.FILE_ID
+					AND FILE_CLS_CD = 'THUMB11'
+				LIMIT 1
+			) thmbPath
+			, A.COURSE_FEAT courseFeat
+			, A.COURSE_YEAR courseYear
+			, A.COURSE_START_DT courseStartDt
+			, A.COURSE_END_DT courseEndDt
+			, A.COURSE_CLS_CD courseClsCd
+			, A.STDY_PERIOD stdyPeriod
+			, A.REVIEW_PERIOD reviewPeriod
+			, A.LVL_CD lvlCd
+			, A.STDY_TG_CD stdyTgCd
 			, A.FMY_SITE_DS_CD fmySiteDsCd
 	</sql>
 	
 	<sql id="from_template">
 		FROM 
-			EBSLMS_R.TB_COURSE_ADTL_INFO A
+			EBSLMS_R.TB_COURSE A
 	</sql>
 	
 	<sql id="and_courseId_template">
@@ -41,8 +59,8 @@
 	<!--
 		Query 
 	-->
-	<select id="findCreateData" resultType="courseAdtlInfo" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findCreateData */
+	<select id="findCreateData" resultType="course" parameterType="String">
+		/* api.dataSync.course.findCreateData */
 		<include refid="select_template" />
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
@@ -51,8 +69,8 @@
 		<include refid="orderBy_template" />
 	</select>
 	
-	<select id="findUpdateData" resultType="courseAdtlInfo" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findUpdateData */
+	<select id="findUpdateData" resultType="course" parameterType="String">
+		/* api.dataSync.course.findUpdateData */
 		<include refid="select_template" />
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
@@ -62,9 +80,9 @@
 	</select>
 	
 	<select id="findDeleteData" resultType="courseId" parameterType="String">
-		/* api.dataSync.courseAdtlInfo.findDeleteData */
+		/* api.dataSync.course.findDeleteData */
 		<include refid="api.dataSync.query_template.tmp_course" />
-		SELECT
+		SELECT 
 			A.COURSE_ID courseId
 		<include refid="from_template" />
 		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
