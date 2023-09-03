@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ebs.biz.api.common.exception.BizApiException;
 import com.ebs.biz.api.common.response.BizDataSyncApiResponse;
 import com.ebs.biz.api.common.util.DateUtil;
 import com.ebs.biz.api.common.validate.ApiKeyValidate;
@@ -17,7 +18,7 @@ import com.ebs.ngs.hsc.hsp.web.api.datasync.service.DataSyncService;
 @RequestMapping("/api/v1/data")
 @RestController("DataSyncController")
 @Validated
-public class DataSyncController {
+public class DataSyncControllerV1 {
 	
 	@Autowired
 	private DataSyncService dataSyncService;
@@ -34,9 +35,13 @@ public class DataSyncController {
 			date = DateUtil.getDate("yyyyMMdd", -1);
 		}
 		
-		BizDataSyncApiResponse<?> response = dataSyncService.getDatasByFactory(table, action, date);
-		
-		return response;
+		try {
+			BizDataSyncApiResponse<?> response = dataSyncService.getDataByFactory(table, action, date);
+			return response;
+		}
+		catch (BizApiException e) {
+			return new BizDataSyncApiResponse<Object>(e.getBizApiResponseCode());
+		}
 		
 	}
 	
