@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.xipScvExpl">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		<include refid="api.dataSync.query_template.tmp_item" />
+		SELECT 
+			DISTINCT
+			A.PRBM_NO itemNo
+			, A.LEC_ID lectId
+			, A.EXPL_TM startTime
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			EBSHSC.TB_XIP_SCV_EXPL A
+			INNER JOIN TMP_ITEM B ON A.PRBM_NO = B.ITEM_NO
+	</sql>
+	
+	<sql id="where_deltYnToN_template">
+		WHERE
+			B.DELT_YN = 'N'
+	</sql>
+	
+	<sql id="where_deltYnToY_template">
+		WHERE
+			B.DELT_YN = 'Y'
+	</sql>
+	
+	<sql id="and_createDate_template">
+			AND B.CREATE_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND B.CREATE_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND B.EDIT_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND B.EDIT_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+			AND B.CREATE_DATE <![CDATA[<>]]> B.EDIT_DATE
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.PRBM_NO
+			, A.LEC_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="xipScvExpl" parameterType="String">
+		/* api.dataSync.xipScvExpl.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_deltYnToN_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="xipScvExpl" parameterType="String">
+		/* api.dataSync.xipScvExpl.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_deltYnToN_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="xipScvExpl" parameterType="String">
+		/* api.dataSync.xipScvExpl.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_item" />
+		SELECT
+			A.PRBM_NO itemNo
+			, A.LEC_ID lectId
+		<include refid="from_template" />
+		<include refid="where_deltYnToY_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>

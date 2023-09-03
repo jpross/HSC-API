@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.concCourseLectCatsysRl.jhs">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		<include refid="api.dataSync.query_template.tmp_course_jhs" />
+		SELECT
+			D.COURSE_ID courseId
+			, A.LECT_ID lectId
+			, A.CLSFN_SYST_ID prbmCatId
+			, NULL ar
+			, NULL subj
+			, NULL larcat
+			, NULL ingcat
+			, D.FMY_SITE_DS_CD fmySiteDsCd
+			, A.HGRNK_CLSFN_SYST_ID hgrnkClsfnSystId
+			, A.BOTM_CLSFN_SYST_YN botmClsfnSystYn
+			, A.CLSFN_SYST_PHS clsfnSystPhs
+			, A.SORT_SEQ sortSeq
+			, A.CLSFN_SYST_NM_1 clsfnSystNm1
+			, A.CLSFN_SYST_NM_2 clsfnSystNm2
+			, A.CLSFN_SYST_NM_3 clsfnSystNm3
+			, A.CLSFN_SYST_NM_4 clsfnSystNm4
+			, A.CLSFN_SYST_NM_5 clsfnSystNm5
+			, A.CLSFN_SYST_NM_6 clsfnSystNm6
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			EBSJHS.TB_LMS_CLSFN_SYST_LECT_RL A
+			INNER JOIN EBSLMS_R.TB_STEP_LECT_RL B ON B.LECT_ID = A.LECT_ID
+			INNER JOIN EBSLMS_R.TB_COURSE_STEP_RL C ON C.STEP_ID = B.STEP_ID
+			INNER JOIN TMP_COURSE D ON C.COURSE_ID = D.COURSE_ID
+	</sql>
+	
+	<sql id="where_template">
+		WHERE
+			1 = 1
+	</sql>
+	
+	<sql id="and_courseId_template">
+			AND D.COURSE_ID = '10034673'
+	</sql>
+
+	<sql id="and_createDate_template">
+			AND A.CRTN_DTM <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.CRTN_DTM <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND A.LST_CHNG_DTM <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.LST_CHNG_DTM <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			D.COURSE_ID
+			, A.LECT_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="concCourseLectCatsysRl" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.jhs.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_courseId_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="concCourseLectCatsysRl" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.jhs.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_courseId_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="courseIdAndLectId" parameterType="String">
+		/* api.dataSync.concCourseLectCatsysRl.jhs.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_course_jhs" />
+		SELECT 
+			D.COURSE_ID courseId
+			, A.LECT_ID lectId
+		<include refid="from_template" />
+		<include refid="where_template" />
+		<include refid="and_courseId_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>

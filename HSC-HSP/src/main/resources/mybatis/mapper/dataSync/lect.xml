@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.lect">
+
+	<!--
+		Template 
+	-->
+	<sql id="select_template">
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			A.LECT_ID lectId
+			, A.LECT_NM lectNm
+			, A.LECT_SNO lectSno
+			, (
+				SELECT
+					CONCAT(IF(A.FMY_SITE_DS_CD = 'EBSI', '', 'https://cbox.ebs.co.kr'), FILE_PATH_NM, FILE_PHSC_NM)
+				FROM
+					EBSLMS_R.TB_ATCH_FILE
+				WHERE
+					FILE_ID = A.FILE_ID
+					AND IF(DELT_YN IS NULL OR DELT_YN = '', 'N', DELT_YN) = 'N'
+					AND FILE_CLS_CD = 'VOD_THUMB1'
+				ORDER BY
+					ATCH_FILE_SNO DESC
+				LIMIT
+					1
+			) thmbPath
+			, A.LECT_EXP lectExp
+			, A.LECT_SUPL_EXP_CNTN lectSuplExpCntn
+			, A.BRDC_DT brdcDt
+			, A.LECT_LOAD_DT lectLoadDt
+			, A.OPN_CPLT_DT opnCpltDt
+			, A.SHW_START_DTM shwStartDtm
+			, A.LECT_CLS_CD lectClsCd
+			, A.LECT_INTRO_YN lectIntroYn
+			, A.PLYR_USE_YN plyrUseYn
+			, CASE A.FMY_SITE_DS_CD
+				WHEN 'EBSI' THEN A.ECD_FILE_VOD_TIME
+			ELSE
+			(
+				SELECT
+			    	B.ECD_FILE_VOD_TIME
+				FROM
+					EBSLMS_R.TB_LECT_MEDIA_RL A
+			    	INNER JOIN EBSLMS_R.TB_MEDIA B ON A.MEDIA_ID = B.MEDIA_ID
+				WHERE
+					A.LECT_ID = A.LECT_ID
+				ORDER BY
+					CASE B.ECD_FILE_CLS_CD
+						WHEN 'M10' THEN 1
+					ELSE
+						2
+					END
+				LIMIT
+					1
+			)
+			END ecdFileVodTime
+			, A.FILE_ID fileId
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			EBSLMS_R.TB_LECT A
+	</sql>
+	
+	<sql id="and_lectId_template">
+			AND A.LECT_ID IN (
+				SELECT
+					DISTINCT
+					C.LECT_ID
+				FROM
+					TMP_COURSE A
+					INNER JOIN EBSLMS_R.TB_COURSE_STEP_RL B ON B.COURSE_ID = A.COURSE_ID AND B.FMY_SITE_DS_CD = A.FMY_SITE_DS_CD
+					INNER JOIN EBSLMS_R.TB_STEP_LECT_RL C ON C.STEP_ID = B.STEP_ID AND C.FMY_SITE_DS_CD = A.FMY_SITE_DS_CD
+			)
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.LECT_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="lect" parameterType="String">
+		/* api.dataSync.lect.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_createDate_template" />
+		<include refid="and_lectId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="lect" parameterType="String">
+		/* api.dataSync.lect.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToN_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_lectId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="lectId" parameterType="String">
+		/* api.dataSync.lect.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_course" />
+		SELECT
+			A.LECT_ID lectId
+		<include refid="from_template" />
+		<include refid="api.dataSync.query_template.where_deltYnToY_template" />
+		<include refid="api.dataSync.query_template.and_editDate_template" />
+		<include refid="and_lectId_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>

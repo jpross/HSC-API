@@ -7,8 +7,39 @@
 		<typeAlias alias="hashMap" type="java.util.HashMap"/>
 		<typeAlias alias="linkedMap" type="java.util.LinkedHashMap"/>
 		
-		<typeAlias alias="course" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.Course"/>
+		<typeAlias alias="concCourseLectCatsysRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.ConcCourseLectCatsysRl"/>
+		<typeAlias alias="course" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Course"/>
+		<typeAlias alias="courseClsfnRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseClsfnRl"/>
+		<typeAlias alias="courseClsfn" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseClsfn"/>
+		<typeAlias alias="courseAdtlInfo" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseAdtlInfo"/>
+		<typeAlias alias="eduCourse" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.EduCourse"/>
+		<typeAlias alias="courseTchRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseTchRl"/>
+		<typeAlias alias="tch" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Tch"/>
+		<typeAlias alias="tchAdtlInfo" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.TchAdtlInfo"/>
+		<typeAlias alias="courseStepRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.CourseStepRl"/>
+		<typeAlias alias="step" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Step"/>
+		<typeAlias alias="stepLectRl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.StepLectRl"/>
+		<typeAlias alias="lect" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.Lect"/>
+		<typeAlias alias="lectAdtlInfo" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.LectAdtlInfo"/>
+		<typeAlias alias="lectIndex" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.LectIndex"/>
+		<typeAlias alias="xipScvExpl" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.table.XipScvExpl"/>
+		
+		<typeAlias alias="courseIdAndLectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseIdAndLectId"/>
+		<typeAlias alias="courseId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseId"/>
+		<typeAlias alias="clsfnSystId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ClsfnSystId"/>
+		<typeAlias alias="clsfnSystIdAndCourseId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ClsfnSystIdAndCourseId"/>
+		<typeAlias alias="courseIdAndTchIdAndFmySiteDsCd" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseIdAndTchIdAndFmySiteDsCd"/>
+		<typeAlias alias="tchIdAndFmySiteDsCd" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.TchIdAndFmySiteDsCd"/>
+		<typeAlias alias="courseIdAndStepId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.CourseIdAndStepId"/>
+		<typeAlias alias="stepId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.StepId"/>
+		<typeAlias alias="stepIdAndLectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.StepIdAndLectId"/>
+		<typeAlias alias="lectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.LectId"/>
+		<typeAlias alias="lectIdAndIndexId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.LectIdAndIndexId"/>
+		<typeAlias alias="itemNoAndLectId" type="com.ebs.ngs.hsc.hsp.web.api.datasync.model.key.ItemNoAndLectId"/>
 		
 		<typeAlias alias="apiLogHist" type="com.ebs.biz.api.common.log.model.BizApiLogHist"/>
 	</typeAliases>
+	<plugins>
+		<plugin interceptor="com.ebs.ngs.hsc.hsp.system.interceptor.DataSyncQueryLogInterceptor"></plugin>
+	</plugins>
 </configuration> 

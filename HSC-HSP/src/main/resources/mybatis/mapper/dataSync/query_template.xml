@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.query_template">
+
+	<sql id="tmp_item">
+		WITH TMP_ITEM AS (
+			SELECT 
+				A.ITEM_NO
+				, A.DELT_YN
+				, A.CREATE_DATE
+				, A.EDIT_DATE
+			FROM
+				EBSITP_R.T_XIP_ITEM_API_SUPPLY A
+			WHERE 
+				A.CON_SITE_DS_CD = 'GOE'
+		)
+	</sql>
+
+	<sql id="tmp_course_jhs">
+		WITH TMP_COURSE AS (
+			SELECT 
+				DISTINCT
+				TC.COURSE_ID
+				, IF(TC.DELT_YN IS NULL OR TC.DELT_YN = '', 'N', TC.DELT_YN) DELT_YN
+				, TC.FMY_SITE_DS_CD
+			FROM
+				EBSLMS_R.TB_COURSE TC
+			WHERE
+				TC.FMY_SITE_DS_CD IN ('PRIM', 'MIDL')
+				AND TC.COURSE_ID IN (
+					'10030790', '10209914', '10209915', '10033681', '100001133', '100001132', '100004167', '100004295', '100004168', '100004316', '100004169', '100004296', '10210015', '10210013', '10019017', '10210014', '10019018', '10210230', '10210231', '10210233', '10209001', '10209520', '10030775', '10030777', '10030774', '10209894', '10209904', '10210063', '10034673'
+				)
+		)
+	</sql>
+
+	<sql id="tmp_course">
+		WITH TMP_COURSE AS (
+			SELECT 
+				DISTINCT
+				X.COURSE_ID
+				, IF(X.DELT_YN IS NULL OR X.DELT_YN = '', 'N', X.DELT_YN) DELT_YN
+				, X.FMY_SITE_DS_CD
+			FROM (
+				SELECT
+					TC.COURSE_ID
+					, TC.DELT_YN
+					, TC.FMY_SITE_DS_CD
+				FROM
+					EBSLMS_R.TB_COURSE TC
+				WHERE
+					1 = 1
+					AND (
+						(
+							TC.COURSE_ID IN ('S20210000160','S20210000159','S20210000176','S20210000167','S20210000184','S20210000166','S20210000183','S20210000174','S20210000191','S20210000173','S20210000190','S20210000202','S20210000219','S20200000294')
+							AND TC.FMY_SITE_DS_CD = 'EBSI'
+						)
+						OR
+						(
+							TC.COURSE_ID IN ('10030790', '10209914', '10209915', '10033681', '100001133', '100001132', '100004167', '100004295', '100004168', '100004316', '100004169', '100004296', '10210015', '10210013', '10019017', '10210014', '10019018', '10210230', '10210231', '10210233', '10209001', '10209520', '10030775', '10030777', '10030774', '10209894', '10209904', '10210063', '10034673')
+							AND TC.FMY_SITE_DS_CD IN ('PRIM', 'MIDL')
+						)
+						OR TC.COURSE_ID IN (
+							SELECT 
+								TLSLC.SBJT_ID COURSE_ID
+							FROM 
+								EBSHSC.TB_LMS_SBJT_LECT_CAT TLSLC
+							WHERE 
+								TLSLC.SBJT_ID NOT IN ('S20160000941', 'S20160000691')
+						)
+					)
+			)
+				X
+		)
+	</sql>
+	
+	<sql id="where_deltYnToN_template">
+		WHERE
+			IF(A.DELT_YN IS NULL OR A.DELT_YN = '', 'N', A.DELT_YN) = 'N'
+	</sql>
+	
+	<sql id="where_deltYnToY_template">
+		WHERE
+			IF(A.DELT_YN IS NULL OR A.DELT_YN = '', 'N', A.DELT_YN) = 'Y'
+	</sql>
+
+	<sql id="and_createDate_template">
+			AND A.CREATE_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.CREATE_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND A.EDIT_DATE <![CDATA[>=]]> CONCAT(#{date}, '000000')
+			AND A.EDIT_DATE <![CDATA[<=]]> CONCAT(#{date}, '235959')
+	</sql>
+
+</mapper>

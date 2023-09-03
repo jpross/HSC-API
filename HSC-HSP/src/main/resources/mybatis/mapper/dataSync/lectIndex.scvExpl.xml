@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+<!DOCTYPE mapper 
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.dataSync.lectIndex.scvExpl">
+
+	<!--
+		Template 
+	-->
+
+	<sql id="select_template">
+		<include refid="api.dataSync.query_template.tmp_item" />
+		SELECT
+			DISTINCT
+			A.LECT_ID lectId
+			, A.LECT_ITEM_ID indexId
+			, A.CLIP_NM indexNm
+			, A.ECD_FILE_VOD_TIME ecdFileVodTime
+			, A.START_TIME startTime
+			, A.END_TIME endTime
+			, A.FMY_SITE_DS_CD fmySiteDsCd
+			, NULL indexType
+			, NULL questNo
+			, NULL txbkPageNo
+	</sql>
+	
+	<sql id="from_template">
+		FROM
+			EBSLMS_R.TB_LECT_ITEM A
+			INNER JOIN (
+				SELECT 
+					DISTINCT
+					A.LEC_ID
+					, A.EXPL_TM START_TIME
+					, B.CREATE_DATE
+					, B.EDIT_DATE
+					, B.DELT_YN
+				FROM
+					EBSHSC.TB_XIP_SCV_EXPL A
+					INNER JOIN TMP_ITEM B ON A.PRBM_NO = B.ITEM_NO
+			) B ON B.LEC_ID = A.LECT_ID AND B.START_TIME = A.START_TIME	
+	</sql>
+	
+	<sql id="where_deltYnToN_template">
+		WHERE
+			B.DELT_YN = 'N'
+	</sql>
+	
+	<sql id="where_deltYnToY_template">
+		WHERE
+			B.DELT_YN = 'Y'
+	</sql>
+	
+	<sql id="and_createDate_template">
+			AND B.CREATE_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND B.CREATE_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+	</sql>
+	
+	<sql id="and_editDate_template">
+			AND B.EDIT_DATE <![CDATA[>=]]> DATE_FORMAT(CONCAT(#{date}, '000000'), '%Y%m%d%H%i%s')
+			AND B.EDIT_DATE <![CDATA[<=]]> DATE_FORMAT(CONCAT(#{date}, '235959'), '%Y%m%d%H%i%s')
+			AND B.CREATE_DATE <![CDATA[<>]]> B.EDIT_DATE
+	</sql>
+	
+	<sql id="orderBy_template">
+		ORDER BY
+			A.LECT_ID
+			, A.LECT_ITEM_ID
+	</sql>
+	
+	<!--
+		Query 
+	-->
+	<select id="findCreateData" resultType="lectIndex" parameterType="String">
+		/* api.dataSync.lectIndex.scvExpl.findCreateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_deltYnToN_template" />
+		<include refid="and_createDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findUpdateData" resultType="lectIndex" parameterType="String">
+		/* api.dataSync.lectIndex.scvExpl.findUpdateData */
+		<include refid="select_template" />
+		<include refid="from_template" />
+		<include refid="where_deltYnToN_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+	<select id="findDeleteData" resultType="lectIdAndIndexId" parameterType="String">
+		/* api.dataSync.lectIndex.scvExpl.findDeleteData */
+		<include refid="api.dataSync.query_template.tmp_item" />
+		SELECT
+			A.LECT_ID lectId
+			, A.LECT_ITEM_ID indexId
+		<include refid="from_template" />
+		<include refid="where_deltYnToY_template" />
+		<include refid="and_editDate_template" />
+		<include refid="orderBy_template" />
+	</select>
+	
+</mapper>
