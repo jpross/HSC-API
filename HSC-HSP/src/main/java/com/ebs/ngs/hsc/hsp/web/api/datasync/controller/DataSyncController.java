@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ebs.biz.api.common.response.BizDataSyncApiResponse;
+<<<<<<< HEAD
 import com.ebs.biz.api.common.util.DateUtil;
+=======
+>>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 import com.ebs.biz.api.common.validate.ApiKeyValidate;
 import com.ebs.ngs.hsc.hsp.web.api.datasync.service.DataSyncService;
 
@@ -30,10 +33,13 @@ public class DataSyncController {
 			@RequestParam(value = "date", required = false) String date
 			) {
 		
+<<<<<<< HEAD
 		if (date == null) {
 			date = DateUtil.getDate("yyyyMMdd", -1);
 		}
 		
+=======
+>>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 		BizDataSyncApiResponse<?> response = dataSyncService.getDatasByFactory(table, action, date);
 		
 		return response;

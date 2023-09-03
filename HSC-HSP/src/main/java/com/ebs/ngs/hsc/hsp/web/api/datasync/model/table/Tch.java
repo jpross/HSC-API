@@ -1,5 +1,6 @@
 package com.ebs.ngs.hsc.hsp.web.api.datasync.model.table;
 
+<<<<<<< HEAD
 import java.io.Serializable;
 
 import com.ebs.ngs.hsc.hsp.web.api.datasync.model.DataSyncModel;
@@ -32,4 +33,14 @@ public class Tch extends DataSyncModel implements Serializable {
 		return super.getNullToEmpty(tchDsCd);
 	}
 	
+=======
+import lombok.Data;
+
+@Data
+public class Tch {
+	private String tchId;
+	private String fmySiteDsCd;
+	private String tchNm;
+	private String tchDsCd;
+>>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 }

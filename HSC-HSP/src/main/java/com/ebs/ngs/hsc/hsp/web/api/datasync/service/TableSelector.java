@@ -36,6 +36,7 @@ public class TableSelector {
 			case "005":
 				return Arrays.asList("eduCourse");
 			case "006":
+<<<<<<< HEAD
 				return Arrays.asList("courseTchRl");
 			case "007":
 				return Arrays.asList("tch");
@@ -55,6 +56,27 @@ public class TableSelector {
 				return Arrays.asList("lectIndex.hsc", "lectIndex.scvExpl");
 			case "015":
 				return Arrays.asList("concCourseLectCatsysRl.hsc", "concCourseLectCatsysRl.jhs");
+=======
+				return Arrays.asList("courseTchRl.hsc, courseTchRl.jhs");
+			case "007":
+				return Arrays.asList("tch");
+			case "008":
+				return Arrays.asList("tchAdtlInfo");
+			case "009":
+				return Arrays.asList("courseStepRl");
+			case "010":
+				return Arrays.asList("step");
+			case "011":
+				return Arrays.asList("stepLectRl");
+			case "012":
+				return Arrays.asList("lect");
+			case "013":
+				return Arrays.asList("lectAdtlInfo");
+			case "014":
+				return Arrays.asList("lectIndex");
+			case "015":
+				return Arrays.asList("concCourseLectCatsysRl");
+>>>>>>> branch 'main' of https://github.com/jpross/HSC-API
 			case "023":
 				return Arrays.asList("xipScvExpl");
 			case "024":
