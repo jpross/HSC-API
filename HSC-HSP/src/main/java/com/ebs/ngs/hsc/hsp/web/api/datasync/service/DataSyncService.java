@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ebs.biz.api.common.exception.BizApiException;
+import com.ebs.biz.api.common.response.BizApiResponseCode;
 import com.ebs.biz.api.common.response.BizDataSyncApiResponse;
 import com.ebs.ngs.hsc.hsp.web.api.datasync.repository.DataSyncRepository;
 import com.ebs.ngs.hsc.hsp.web.common.mapper.DataBaseFactory.DataSource;
@@ -20,7 +22,7 @@ public class DataSyncService {
 	@Autowired
 	private DataSyncRepository repository;
 	
-	public <T> BizDataSyncApiResponse<T> getDatasByFactory(String tableCd, String action, String date) {
+	public <T> BizDataSyncApiResponse<T> getDataByFactory(String tableCd, String action, String date) {
 		
 		List<T> datas = new ArrayList<>();
 		List<String> tables = TableSelector.getTable(tableCd);
@@ -33,18 +35,23 @@ public class DataSyncService {
 		logger.info("action: " + action);
 		logger.info("date: " + date);
 		
-		DataGetter getter = getDataGetter(action);
-		
-		tables.forEach(table -> {
-			datas.addAll(getData(getter, table, date));
-		});
-		
-		logger.info("data size: " + String.valueOf(datas.size()));
-		logger.info("==================================================================================");
-		
-		return new BizDataSyncApiResponse<T>()
-				.setDate(date)
-				.setData(datas);
+		try {
+			DataGetter getter = getDataGetter(action);	
+			
+			tables.forEach(table -> {
+				datas.addAll(getData(getter, table, date));
+			});
+			
+			logger.info("data size: " + String.valueOf(datas.size()));
+			logger.info("==================================================================================");
+			
+			return new BizDataSyncApiResponse<T>()
+					.setDate(date)
+					.setData(datas);
+		}
+		catch (Exception e) {
+			throw new BizApiException(BizApiResponseCode.INTERNAL_DB_ERROR);
+		}
 		
 	}
 	
@@ -60,7 +67,7 @@ public class DataSyncService {
 		return datas;
 	}
 	
-	public DataGetter getDataGetter(String action) {
+	public DataGetter getDataGetter(String action) throws Exception {
 		
 		switch (action) {
 			case "create":

@@ -30,7 +30,7 @@ public class DataSyncRepository {
 		return datas;
 	}
 
-	public <T> List<T> getDeleteData(String table, String date) {
+	public <T> List<T> getDeleteData(String table, String date) throws Exception {
 		List<T> datas = commonMapper.selectList(getQueryId(table, "findDeleteData"), date);
 		return datas;
 	}
